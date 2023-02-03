@@ -7,3 +7,9 @@ Paths.get()을 할때 String을 여러개 넣게 되면 어떤 해당 String들�
 따라서 아래와 같이 되면 
 Paths.get("/path/to/directory", "newFolder", "newFile.txt")
 -> path/to/directory/newFolder/newFile.txt 이런 경로가 생성이 된다.
+
+
+WatchService에서 Create event를 감지하도록 하고 해당 event의 context를 받으면 새로 감지한 파일 혹은 폴더명을 반환하게 된다.
+ex)
+  Path newFile = (Path) event.context();
+   newFile.toString() -> 새로 생성된 파일 혹은 폴더명을 반환
