@@ -1,0 +1,9 @@
+When using Paths.get(String ... args), the args are interpreted as parts of a file path, and they are combined to form a single Path object that represents the file path.
+For example, if you use Paths.get("/path/to/directory", "newFolder", "newFile.txt"), the Path object returned will represent the file path /path/to/directory/newFolder/newFile.txt.
+This is useful for constructing file paths dynamically, for example, when combining the path to a directory with the name of a new folder or file that was created.
+
+뜻
+Paths.get()을 할때 String을 여러개 넣게 되면 어떤 해당 String들로 경롤르 만들어주게 된다.
+따라서 아래와 같이 되면 
+Paths.get("/path/to/directory", "newFolder", "newFile.txt")
+-> path/to/directory/newFolder/newFile.txt 이런 경로가 생성이 된다.
