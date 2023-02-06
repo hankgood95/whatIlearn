@@ -3,6 +3,7 @@
 
 scp -r 보낼폴더명 계정@ip혹은주소: 받는곳의경로
 
+-----------------------------------------------------------------------------------------------------------------------
 
 jar파일을 빌드할때 그냥 maven install을 하게 되면 main 클래스가 포함되지 않아 main클래스를 찾지못해서 jar파일을 실행하지 못하게 되는 경우가 있다.
 이를 해결하기 위해선 pom.xml에서 아래의 구문을 추가해줘야 한다.
@@ -25,3 +26,52 @@ jar파일을 빌드할때 그냥 maven install을 하게 되면 main 클래스�
 </build>
 
 위 구문은 이제 jar를 build 할때 main클래스를 포함시켜주ehfhr manifest를 추가해준것이다.
+
+-----------------------------------------------------------------------------------------------------------------------
+
+우리가 jar파일을 만들때 runnable jar 파일로 만들어서 jar 파일 안에 모든 dependency jar 들을 포함시킬수가 있다.
+하지만 위 방법으로 jar 파일을 만들게 되면 jar파일이 너무 무거워지게 된다. 그리고 추후에 다른프로젝트에서도 같은 dependency jar를 
+사용하더라도 서로 다른 파일에 있기때문에 같은 서버내에 jar 파일이 중복되는 결과가 생긴다.
+따라서 이를 극복 하기 위해선 아래와 같이 해야 한다.
+
+1. dependency를 묶어 놓은 jar 파일의 모음을 만들수 있도록 pom.xml에 추가한다.
+
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-dependency-plugin</artifactId>
+      <version>3.2.2</version>
+      <executions>
+        <execution>
+          <id>copy-dependencies</id>
+          <phase>package</phase>
+          <goals>
+            <goal>copy-dependencies</goal>
+          </goals>
+          <configuration>
+            <outputDirectory>${project.build.directory}/dependency-jars/</outputDirectory>
+          </configuration>
+        </execution>
+      </executions>
+    </plugin>
+  </plugins>
+</build>
+
+위 코드를 pom.xml에 추가 하게 되면 depenedency가 모인 파일을 maven install 할때 만들어준다.
+
+2. dependency가 모인 파일을 서버에 올리고 서버에서 jar 파일을 생성할때 manifest 파일을 만들어서 classPath를 지정해준다.
+
+manifest.mf
+Class-Path : 파일경로/jar파일이름 파일경로/jar파일이름
+
+이렇게 만들고 저장을 하면 된다.
+위 파일 경로는 dependency jar 파일이 담겨 있는 파일경로를 뜻하고 jar 파일 이름은 dependency 명을 적어주면 된다.
+
+
+3. jar ufm 프로젝트jar파일.jar manifest.mf 명령어를 통해서 jar의 manifest 파일을 업데이트 시켜주고(u 옵션)
+그리고 manifest.mf 파일로 manifest 파일을 지정하기 위해 fm 옵션을 사용하여 뒤에 manifest.mf 를 명시해준다.
+
+4. 그렇게 되면 이제 jar 파일들이 잘 적용된것을 확인해볼수가 있다.
+
+-----------------------------------------------------------------------------------------------------------------------
