@@ -2,3 +2,26 @@
 이용방법은 아래와 같다.
 
 scp -r 보낼폴더명 계정@ip혹은주소: 받는곳의경로
+
+
+jar파일을 빌드할때 그냥 maven install을 하게 되면 main 클래스가 포함되지 않아 main클래스를 찾지못해서 jar파일을 실행하지 못하게 되는 경우가 있다.
+이를 해결하기 위해선 pom.xml에서 아래의 구문을 추가해줘야 한다.
+
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-jar-plugin</artifactId>
+      <version>3.2.0</version>
+      <configuration>
+        <archive>
+          <manifest>
+            <mainClass>fully.qualified.MainClass</mainClass>
+          </manifest>
+        </archive>
+      </configuration>
+    </plugin>
+  </plugins>
+</build>
+
+위 구문은 이제 jar를 build 할때 main클래스를 포함시켜주ehfhr manifest를 추가해준것이다.
