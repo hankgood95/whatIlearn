@@ -1,0 +1,41 @@
+드디어 log4j2.properties 파일 설정을 마쳤다.
+
+일단은 아래와 같이 적어줘야 한다.
+
+log4j2.properties
+
+status = error
+name = PropertiesConfig
+
+# Console appender
+appender.console.type = Console
+appender.console.name = consoleLogger
+appender.console.layout.type = PatternLayout
+appender.console.layout.pattern = %d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n
+
+# Rolling file appender
+appender.rolling.type = RollingFile
+appender.rolling.name = fileLogger
+appender.rolling.fileName = /home/samson/study/wookjae/app.log
+appender.rolling.filePattern = /home/samson/study/wookjae/app-%d{yyyy-MM-dd}-%i.log
+appender.rolling.layout.type = PatternLayout
+appender.rolling.layout.pattern = %d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n
+appender.rolling.policies.type = Policies
+appender.rolling.policies.time.type = TimeBasedTriggeringPolicy
+appender.rolling.policies.time.interval = 1
+appender.rolling.policies.time.modulate = true
+appender.rolling.policies.size.type = SizeBasedTriggeringPolicy
+appender.rolling.policies.size.size = 10 MB
+appender.rolling.strategy.type = DefaultRolloverStrategy
+appender.rolling.strategy.delete.type = Delete
+appender.rolling.strategy.delete.basePath = /home/samson/study/wookjae
+appender.rolling.strategy.delete.maxDepth = 1
+appender.rolling.strategy.delete.ifLastModified.type = IfLastModified
+appender.rolling.strategy.delete.ifLastModified.age = 7 d
+
+# Root logger
+rootLogger.level = info
+rootLogger.appenderRef.rolling.ref = fileLogger
+rootLogger.appenderRef.stdout.ref = consoleLogger
+
+이렇게 써준다면 이제 console에다가도 찍히고 파일에다가도 찍히게 된다.
