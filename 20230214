@@ -1,9 +1,11 @@
 SIGTERM 이란?
 SIGTERM은 Signam Terminate라는 뜻으로 프로세스를 종료시킨다는 뜻이다.
 프로세스를 종료하는 신호를 주어 프로세스를 종료시키는것이다.
+리눅스에서 SIGTERM의 명령어는 kill -15(생략가능) {pid} 이다.
 
 SIGKILL 이란?
 SIGKILL은 돌아가고 있는 프로세스를 강제적으로 죽이는것이다.
+리눅스에서 SIGKILL의 명령어는 kill -9 {pid} 이다.
 
 그렇다면 SIGTERM과 SIGKILL 모두 프로세스를 종료하는것인대 차이는 무엇일까?
 
