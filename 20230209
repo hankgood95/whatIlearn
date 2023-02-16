@@ -127,5 +127,14 @@ Mark occurences of the selected element in the current file을 체크해주면 �
 ----------------------------------------------------------------------------------------------------------------
 
 try with resources 란?
-close() 처리를 해줘야 하는 함수들이 있다.
+try with resource란 자원을 관리하기 쉽게 만들기 위한 것이다.
+우리가 파일 핸들링을 할때 try-catch 구문에서 stream 관련된것은 finally{} 구문에서 무조건적으로 닫게해준 소스를 본적이 있을것이다.
+이걸 관리하기 쉽게하기 위해서 만든것이 try with resource이다. 
+Closable 이라는 인터페이스를 구현 받는 객체라면 아래와 같이 만들어서 사용하게 되면 
+따로 close()를 해주지 않더라고 저절로 close()가 된다.
+try(FileOutputStream fos = new FileOutputStream()){
 
+}catch(Exception e){}
+
+그렇다고 try with resource 구문이 편하니까 무조건적으로 이것만 쓰는것은 아니다. Graceful하게 쓰레드나 프로세스를 종료 시키고 싶을땐
+finally{} 구문을 사용하여서 종료 프로세스를 실행시키면 된다.
