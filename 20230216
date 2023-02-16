@@ -44,9 +44,26 @@ d - delete the matched lines.
 g - global search.
 ! - negation. This means to select all lines that do not match the pattern.
 /pattern/ - specifies the pattern to search for.
-d - delete the unmatched lines.
+d - delete the matched lines.
 
 vi에서 특정 패턴을 제외한 나머지를 지우기
 :%g!/패턴/d
 g 뒤에 느낌표를 붙임으로써 를 제외한 나머지를 지운다고 표현할수가 있다.
+
+vi에서 특정 패턴을 다른 문자로 치환하고 싶을때가 있을것이다.
+그걸 해주는 명령어는 아래와 같다.
+
+:%s/패턴/변경문자/g
+
+그 앞에 옵션들이 뜻하는 바는 아래와 같다.
+
+% - indicates that the command should be applied to the entire file.
+s - substitute command. - 대체명령어
+/pattern/ - specifies the pattern to search for.
+replacement - specifies the string to replace the pattern with.
+g - global search and replace. This will replace all occurrences of the pattern in the - 전역으로 검색하고 바꿔준다는 의미에서 g
+
+
+
+---------------------------------------------------------------
 
