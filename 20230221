@@ -1,0 +1,12 @@
+특정 파일에서 이어서 글을 쓰고 싶다면 FileWriter를 생성할때 두번째 인자로 true값을 넣어주면 된다.
+
+ex)
+FileWriter fw = new FileWriter(이어쓸파일객체,true);
+
+그리고 이제 이걸 이용해서 BufferedWriter를 생성하면 된다.
+
+BufferedWriter bw = new BufferedWriter(fw);
+
+bw.append("Hello"); //Hello를 이어서쓴다.
+bw.flush(); //추가한 내용들이 저장이 된다.
+bw.close(); //Stream을 닫아준다.
