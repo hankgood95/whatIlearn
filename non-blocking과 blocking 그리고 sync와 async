@@ -1,0 +1,40 @@
+우리가 흔히 아는 통신 방식은 동기 비동기이다.
+동기는 메시지를 주고 답변이 올때까지 기다리는 방식이다.
+
+비동기는 메시지를 주고 내 할일 하다가 메시지의 답변이 오면 그제서야 확인하는 방식인것을 할수가 있다.
+그렇다면 blocking과 nonblocking은 무엇일까?
+
+사실 blocking과 non blocking도 sync async와 비슷하다. 하지만 차이점이 있다
+어떤 차이점이 있냐 제어권의 차이이다.
+
+비동기 방식은 아래와 같다.
+A가 B에게 일을 주고 B가 일을 완료 한다면 그 완료했다는 처리를 B에서 하는것이다.
+
+하지만 non-blocking 방식은 사뭇 다르다.
+non-blocking 방식은 A가 B에게 일을 주고 일끝나고 알려달라고 전화번호를 남겨준다.
+B가 일을 끝내고 A에게 전화를 하면 A가 그에 대한 완료 처리를 하는것이다.
+
+둘의 차이점은 완료후 그 후처리를 어디서하느냐인것이다.
+이것을 이제 제어권이라고 하는데 non-blocking 방식은 제어권이 완전히 A에게 있는것이다.
+
+이것을 제외하고는 sync와 blocking 방식은 동일하다.
+
+이것을 알았다면 다음으로 중요한것이 있다.
+
+sync와 blocking 방식의 조합인대 나올수 있는 조합은 크게 4가지이다.
+
+sync-blocking
+async-blocking
+sync-nonblocking
+async-nonblocking
+
+이렇게 4가지이다.
+
+사실 앞에 sync-blocking 와 async-blocking 는 동기나 다름없다.
+일을 준쪽에서 아무것도 못하고 대기하고 있는것이나 마찬가지이기 때문이다.
+
+중요한 부분은 sync-nonblocking 와 async-nonblocking 인대
+sync-nonblocking은 A가 B에게 일을 주고 계속해서 B가 일을 끝냈는지 확인하는것이고
+async-nonblocking은 A가 B에게 일을 주고 아예 B가 callback 할때까지 아예 신경을 끄는것이다.
+
+이제 이정도면 동기와 비동기 그리고 blocking과 non-blocking 에대해서 알고 있다고 보면 된다.
