@@ -1,0 +1,112 @@
+이전에 나는 입사 준비를 하면서 싱글톤 패턴에 대해서 배운적 있었다.
+내가 알고 있는 싱글톤 패턴은 그저 한가지 클래스 객체를 다른곳에서 공유하는 정도로만 간단하게 알고있었다.
+
+하지만 이번 입사 교육할때 했던 과제를 리팩토링을 해주신걸 보고 싱글톤 패턴에 대해서 좀 더 자세히 알게 되었다.
+
+일단 싱글톤 패턴에 대해서 다시 알아보고 설명을 해보겠다.
+
+
+싱글톤 패턴이란?
+싱글톤 패턴은 어플리케이션이 시작될때 어떤 클래스가 최초 한번만 메모리를 할당하고 그 메모리에 인스턴스를 만들어 사용하는 디자인 패턴이다.
+설정 파일 같이 값이 변경 되면 안되는? 그런 값을 가지는 것들을 싱글톤 패턴으로 만들면은 설정 값 관리도 편해지고 설정 값이 참조된 여러 객체 들에 의해
+변경될 걱정도 할필요가 없다.
+이렇게 되면 공통된 하나의 인스턴스를 여러 스레드가 공유하기 때문에 효율을 높일수가 있다 하지만 고려해야할것이 동시성이라고 한다.
+
+왜 동시성을 고려해야 할까?
+동시성을 고려해야하는 이유는 간단한다. 여러 스레드가 같이 공유하는것이기 때문에 한곳에서 사용을 하게 되면 다른곳에서는 사용을 못하게 해야한다.
+이를 고려해서 설계를 해야한다.
+
+그럼 한번 예제를 통해서 싱글톤 패턴에 대해서 알아보자.
+
+일단 망치라는 class를 만들고 그걸 모두가 사용해 이걸 싱글톤 디자인 패턴으로 만든다고 가정하고 만들어보자.
+
+public class Hammer {
+
+}
+
+그럼 이 Hammer 클래스를 이제 메모리에 올려 모두가 사용할수 있는 단하나의 인스턴스를 만들자.
+
+public class Hammer{
+
+  private static Hammer hammer = new Hammer();
+
+}
+
+자 이렇게 메모리에 단 하나의 인스턴스를 생성하였다면 이제 해당 인스턴스를 가져올수 잇는 getter를 만들어주자.
+
+public class Hammer{
+
+  private static Hammer hammer = new Hammer();
+
+  public static Hammer getInstance(){
+    return hammer;
+  }
+}
+
+이제 getter를 만들었으니 동시성 제어를 위해 사용하고 있는지 체크를 위한 멤버 변수를 만들어주자.
+
+public class Hammer{
+
+  private static Hammer hammer = new Hammer();
+  private boolean isUse = false;
+  
+  public static Hammer getInstance(){
+    return hammer;
+  }
+  
+  public boolean isUsing(){
+    return isUse;
+  }
+  
+}
+
+그럼 이렇게 만들었으니 실제로 망치를 사용하는 메소드를 만들자.
+
+public class Hammer{
+
+  private static Hammer hammer = new Hammer();
+  private boolean isUse = false;
+  
+  public static Hammer getInstance(){
+    return hammer;
+  }
+  
+  public void useHammer(){
+    isUse = true;
+    System.out.println("Kkang!! KKang!!");
+  }
+  
+  public boolean isUsing(){
+    return isUse;
+  }
+}
+
+망치를 사용하는 메소드를 만들었으니 이제는 망치 사용을 완료하고 
+다른 사람이 쓸수 있게 해주자.
+
+public class Hammer{
+
+  private static Hammer hammer = new Hammer();
+  private boolean isUse = false;
+  
+  public static Hammer getInstance(){
+    return hammer;
+  }
+  
+  public void useHammer(){
+    isUse = true;
+    System.out.println("Kkang!! KKang!!");
+  }
+  
+  public void endUseHammer(){
+    isUse = false;
+    System.out.println("Done!!);
+  }
+  
+  public boolean isUsing(){
+    return isUse;
+  }  
+}
+
+이렇게 클래스를 만들게 되면 메모리에 올라간 하나의 인스턴스로 여러곳에서 쓰일수가 있다.
+그리고 동시성도 제어를 할수 있게 돼 다른곳에서 쓰이고 있으면 사용하지 못하게 할수도 있다.
