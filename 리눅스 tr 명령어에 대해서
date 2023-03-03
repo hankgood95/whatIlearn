@@ -1,0 +1,21 @@
+리눅스에서 tr 은 치환의 의미를 가진다.
+
+아래와 같이 입력을 한다고 하면
+test='Hello,World'
+echo $test | tr ',' ' '
+기존에 , 였던것이 공백으로 바뀌면서 결과는 아래와 같아진다.
+output :  Hello World
+
+tr에는 여러 옵션들이 있다.
+
+그중 자주 사용하는  옵션 d,s가 있다.
+
+-d : 문자열에서 지정한 문자를 삭제한다.
+test='Hello,World'
+echo $test | tr -d ','
+output : HelloWorld
+
+-s : 문자열에서 반복되는 문자를 삭제한다.
+test='Hello,World'
+echo $test | tr -s 'l'
+output : HeloWorld
