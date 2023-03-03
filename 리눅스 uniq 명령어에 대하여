@@ -1,0 +1,55 @@
+uniq 명령어는 중복을 제거해주는 명령어이다.
+
+주로 sort로 정렬한 결과를 파이프라인으로 받아서 정렬결과에서 중복을 제거하는 용도로 주로 쓰인다.
+
+uniq 명령어의 옵션별로 자세히 살펴보자.
+
+-c : 같은 라인이 몇번 나오는지를 표시
+ex)
+cat fruit.txt
+apple
+apple
+apple
+cat fruit.txt | uniq -c
+3 apple
+
+-i : 대소문자 구분없이 중복을 제거
+cat fruit.txt
+apple
+Apple
+apple
+cat fruit.txt | uniq -ic
+3 apple
+
+-d : 중복되어 나오는 라인중 한라인만 표시
+cat fruit.txt
+apple
+apple
+apple
+cat fruit.txt | uniq -dc
+3 apple
+
+-D : 중복되어 나오는 라인중 모두 표시
+cat fruit.txt
+apple
+apple
+apple
+grape
+cat fruit.txt | uniq -D
+apple
+apple
+apple
+
+-u : 중복라인이 없는겂만 표시
+cat fruit.txt
+apple
+apple
+apple
+grape
+cat fruit.txt | uniq -uc
+1 grape
+
+여기서부터는 자주 쓰이지 않을 것 같으니 그냥 설명만 써놓겠다.
+
+-f : N번째 필드를 비교대상에서 제외
+
