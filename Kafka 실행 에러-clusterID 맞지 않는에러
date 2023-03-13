@@ -1,0 +1,9 @@
+Kafka를 실행시키다보면 이런 에러가 발생할수가 있다.
+kafka.common.InconsistentClusterIdException: 
+The Cluster ID doesn't match stored clusterId the broker is trying to join the wrong cluster. Configured zookeeper.connect may be wrong
+
+만약 여기서 내가 입력한 zookeeper.connect가 틀린게 아니라면 아래와 같은 방법으로 해결을 할수가 잇다.
+
+https://twofootdog.tistory.com/93
+
+여기서 알려준 방식으로 확인해보고 되는지 안되는지 확인해보면 될것 같다.
