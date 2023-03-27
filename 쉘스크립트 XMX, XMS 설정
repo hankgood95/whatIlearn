@@ -1,0 +1,22 @@
+XMX와 XMS는 Java application이 효율적으로 실행 되고 OutOfMemoryErrors를 방지 할수 있는 JVM 명령줄 옵션이다.
+어떻게 해서 Java application을 효율적으로 하고 OutOfMemorysErrors를 막는것일까?
+-Xms를 이용해서 JVM이 Java application에게 할당해주는 초기 메모리 양을 설정해주고 -Xmx를 이용해서 프로그램이 사용할수 있는 최대 메모리 양을 설정한다.
+Xms 와 Xmx를 이용해서 Java application에게 적절하게 메모리를 할당 해줌으로써 리소스를 낭비하지 않고 효율적으로 실행할수가 있다.
+
+그렇다면 어떻게 설정을 해줘야 하는걸까?
+일단 아무런 옵션을 주지 않게 되면 
+Xms
+default : 50MB
+Xmx
+default : 256MB
+
+이렇게 할당해준다고 한다.
+
+하지만 따로 설정해준다고 했을때 아래 예제를 통해서 얼마를 주는지 알아보자.
+
+java -Xms64m -Xmx128m test
+
+해당 명령어를 읽자면 java application의 초기 값을 64m 최대값을 128m을 준다는 얘기이다.
+위에서 test는 java application 파일 명이 들어가는 부분이다.
+
+
