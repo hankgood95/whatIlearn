@@ -1,0 +1,36 @@
+우리가 쿼리 값에 따라서 어떤 값을 줄지 결정 지어야 할때가 있다.
+그럴때 사용하는것이 case when 이다
+case when은 java에서 switch case 문과 같은 역할을 한다고 보면 이해가 빠르다.
+
+일단 예시 쿼리를 한번 살펴보자.
+
+SELECT name, age, gender,
+       CASE WHEN age < 18 THEN 'under 18'
+            WHEN age BETWEEN 18 AND 24 THEN '18-24'
+            ELSE 'over 24'
+       END AS age_group
+FROM students;
+
+위 쿼리에서 case when은 age라는 컬럼의 값에 때라서 then 뒤에 오는 값들을 준다는 뜻이다.
+
+※꿀팁※
+여기서 case when을 사용할때의 꿀팁은 가장 위에서부터 값이 맞아 떨어진다면 break 된다는것이다.
+
+SELECT 
+    score,
+    CASE 
+        WHEN score >= 90 THEN 'A'
+        WHEN score >= 80 THEN 'B'
+        WHEN score >= 70 THEN 'C'
+        WHEN score >= 60 THEN 'D'
+        ELSE 'F'
+    END AS grade
+FROM 
+    test_scores;
+    
+위와 원래 같았음 B부터는 80이상 90이하 이렇게 조건문을 걸어주는게 맞다. 하지만 어처피 위에서부터 맞아떨어지면 break 되기 때문에
+굳이 그걸 쓰지 않고 그냥 80이상일때 then B가 되는것이다.
+왜냐면 이미 B로 넘어갈때는 A가 아니기때문이다.
+
+이렇게 사용한다면 쿼리 코드를 줄일수 있으니 이걸 인지하고 있으면 좋다.
+
