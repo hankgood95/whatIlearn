@@ -1,0 +1,20 @@
+우리가 기본적으로 데이터를 집어 넣는 쿼리는 아래와 같다.
+
+INSERT INTO TABLE mytable
+VALUES ('John', 'Smith', 25),
+       ('Jane', 'Doe', 30),
+       ('Bob', 'Johnson', 40);
+
+하지만 실무에서는 그렇게 해서 데이터를 넣는 경우는 UI와 상호작용하는 API 말고는 아마 없을것이다.
+백엔드에서는 보통 엄청난 데이터들이 쌓이는데 보통은 파일로 들어오게 된다.
+그래서 우리는 이제 file의 데이터를 hive에서 어떻게 insert 할것인지에 대해서 알아볼 예정이다.
+
+쿼리는 생각보다 되게 간단하다.
+파일 데이터 insert 쿼리는 아래와 같다.
+
+load data local inpath 'test/data/path'  [overwrite] into table 테이블명
+
+위 구문에서 
+load data local inpath 'test/data/path' 은 로컬에 있는 파일을 이제 테이블에 집어 넣겠다는 뜨싱고
+overwrite는 데이터를 기존의 데이터를 현재의 데이터로 교체한다는 뜻이다.
+overwrite말고 insert into 을 사용한다면 기존의 데이터에 데이터를 추가한다는 뜻이다.
