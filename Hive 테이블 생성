@@ -15,7 +15,7 @@ hive는 기본적으로 쿼리 문법이 MySQL을 바탕으로 쿼리를 짜게 
 일단 생성 쿼리를 먼저 보자.
 
 create external table 테이블명(
-  컬럼명, 컬럼타입
+  컬럼명 컬럼타입,
   .
   .
   .
@@ -65,7 +65,7 @@ FIELDS TERMINATED BY ','
 그럼 전체 코드는 아래와 같아진다.
 
 create external table 테이블명(
-  컬럼명, 컬럼타입
+  컬럼명 컬럼타입,
   .
   .
   .
