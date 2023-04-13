@@ -1,0 +1,64 @@
+내 사수님이 내가 자바로 consumer 그룹을 만든것에 대해서 코드 리팩토링을 해주셨는데 처음보는 consumer 설정이 있었다.
+GROUP_INSTANCE_IN_CONFIG라는 설정이였다.
+
+그래서 이번엔 해당 옵션에 대해서 알아보려고 한다.
+
+GROUP_INSTANCE_IN_CONFIG 옵션이란?
+GROUP_INSTANCE_IN_CONFIG는 Java에서 consumer 그룹내에서 consumer instance를 생성할때 해당 instance에 고유 식별자를 할당해주는것이다.
+
+이렇게 말하면 이해가 가지 않을수가 있다.
+예시 코드를 통해서 한번 살펴보자.
+
+
+ public static void main(String[] args) {
+        // Consumer 1 configuration
+        Properties props1 = new Properties();
+        props1.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props1.put(ConsumerConfig.GROUP_ID_CONFIG, "consumer-group-1");
+        props1.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        props1.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        props1.put(ConsumerConfig.GROUP_INSTANCE_ID_CONFIG, "consumer-instance-1");
+
+        // Consumer 2 configuration
+        Properties props2 = new Properties();
+        props2.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props2.put(ConsumerConfig.GROUP_ID_CONFIG, "consumer-group-2");
+        props2.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        props2.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        props2.put(ConsumerConfig.GROUP_INSTANCE_ID_CONFIG, "consumer-instance-2");
+
+        // Create Kafka consumers with the given configurations
+        KafkaConsumer<String, String> consumer1 = new KafkaConsumer<>(props1);
+        KafkaConsumer<String, String> consumer2 = new KafkaConsumer<>(props2);
+
+        // Subscribe both consumers to the same topic
+        consumer1.subscribe(Collections.singletonList("my-topic"));
+        consumer2.subscribe(Collections.singletonList("my-topic"));
+
+        // Add your code here to poll records and process them for each consumer
+        // ...
+
+        // Close the consumers when finished
+        consumer1.close();
+        consumer2.close();
+    }
+    
+    위 코드에서 보면 consumer1과 consumer2는 같은 consumer group 이지만 서로 다른 GROUP_INSTANCE_ID_CONFIG를 설정한것을 알수가 있다.
+    그렇담 위와 같이 설정을 한다면 어떻게 설정이 되는걸까?
+    
+GROUP_INSTANCE_ID_CONFIG 설정하게 된다고 사실 데이터를 가져오는 방식에 직접적인 영향을 미치니는 않는다.
+대신에 GROUP_INSTANCE_ID_CONFIG를 사용하게 되면 consumer instance를 관리하는데 도움이 된다.
+어떤 도움을 주는지에 대해서 알아보자.
+
+GROUP_INSTANCE_ID_CONFIG 설정의 장점
+
+1. static membership
+consumer가 일시적인 장애가 발생하더라도 본인만의 consumer group에서 본인의 id가 지정이 되어 있기때문에 consumer group에 다시 들어가는 시간을 줄이고 처리 대기시간을 줄여준다.
+
+2. 빨라진 rebalancing
+consumer instance id가 고유하기 때문에 consumer group에 다시 들어가게 되더라도 인스턴스를 빠르게 인식이 가능해 rebalancing 이 빨라진다.
+
+3. 식별 가능한 consumer
+그룹내에서 각 인스턴스별로 id가 고유하기때문에 특정 consumer에서 문제가 생겨도 그에 대한 모니터링이 쉽다.
+
+이러한 이유들때문에 consumer group을 만들때 consumer 별로 id를 설정하는것이 훨씬 유리하다.
