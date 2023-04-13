@@ -1,0 +1,68 @@
+이번에 멀티 thread간의 자원 공유하는 코드를 짜면서 volatile 에 대해서 알게 되었다.
+해당 개념은 좀 중요한 개념인것 같아서 이번에 정리해보려 한다.
+
+
+volatile 이란?
+일단 volatile이란 단어의 사전적 의미는 휘발성이라는 뜻이다.
+왜 휘발성이라는 뜻을 가진것을 자바에서 사용하는것일까를 알면 우리가 이해를 하기 좀 더 쉬울것이다.
+
+왜 휘발성이라는 뜻을 가진것을 사용했을까?
+이것은 온전히 나의 추측에 의한것이다.
+모든 thread 들은 각각의 cpu cache를 이용해서 변수를 가져와서 본인만의 cpu cache에 저장을 하게 된다.
+그래서 그 안에 있는 변수 값을 참조하게 된다. 이를 이해하기 쉽게 도와주는 예시코드를 통해서 살펴보자.
+
+public class ThreadTest {
+    boolean running = true;
+
+    public void test() {
+        new Thread(()->{
+                int count = 0;
+                while (running) {
+                    count++;
+                }
+                System.out.println("Thread 1 finished. Counted up to " + count);
+            }
+        ).start();
+        new Thread(()-> {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ignored) {
+                }
+                System.out.println("Thread 2 finishing");
+                running = false;
+            }
+        ).start();
+    }
+
+    public static void main(String[] args) {
+        new ThreadTest().test();
+    }
+}
+
+위 코드를 보면 두번째 thread가 시작을 하게 되면 첫번째 thread가 멈춰질것같지만 
+첫번째 thread는 멈추지 않고 계속해서 돌아가게 된다.
+그 이유가 첫번째 thread가 가진 running 값과 두번째 thread가 가진 running이 서로 다르기 때문이다.
+왜 같은 running인대 다를까? 그이유는 위에서 언급한 thread 마다 다른 cpu cache 때문이다.
+서로 running 이라는 값을 가져와서 본인들만의 cpu cache에 저장을 하고 그 cache에서 값을 가져와서 참조한다.
+그래서 서로 다른 running 값을 가지기 때문에 첫번째 thread는 계속해서 도는것이다.
+
+위와 같이 서로 휘발성이 있는 cache에 저장하는것이 아닌 휘발성이 없는 곳에 저장을 하기 위해서 사용하는것이
+volatile이다. 그래서 volatile이라고 이름을 짓지 않았을까 싶다.
+
+그럼 volatile은 값을 어디다가 저장하는것일까?
+volatile 키워드로 설정한 변수의 값은 메인메모리에다가 값을 저장하기때문에 다른 thread 에서 참조를 하게 되더라도
+메인메모리에서 값을 가져오기때문에 값은 항상 동기화가 되게 된다.
+
+그렇다면 volatile은 항상 동기화가 되는것인가?
+그런것은 아니라고 한다 volatile으로 설정된 것은 여러 thread가 값을 읽을수는 있지만 메인메모리에 적재되어 있는 값을 쓸때는 동기화 처리가 되지 않을수 있다.
+
+아래와 같은 상황이 있다고 가정을 하자.
+thread1이 volatile 변수값에 1을 추가하려고한다.
+thread2도 마찬가지로 volatile 변수값에 1을 추가하려고 한다.
+둘다 동시에 하게된다면 하나는 반영이 되지 않을것이다.
+
+따라서 volatile은 여러 thread가 read 하는 상황에서는 동기화 문제없이 사용할수 있지만 여러 thread가 write 하는 상황에서는 원자성이 보장이 되지 않기 때문에
+volatile 변수를 write를 하는 상황에서는 synchronize를 사용해서 하나의 thread만 write 할수 있도록 설정을 해줘야 한다.
+
+
+
