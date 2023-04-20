@@ -1,0 +1,20 @@
+yarn-env.sh 파일은 yarn을 실행하는데 필요한 환경변수를 설정하는 파일이다.
+여기서 필요한 대표적으로 필요한 환경변수는 아래와 같다.
+
+JAVA_HOME: 이 변수는 YARN에 사용할 Java 설치 경로를 지정한다.
+YARN_LOG_DIR: 이 변수는 YARN 로그를 저장하는 데 사용할 디렉터리를 지정한다.
+YARN_PID_DIR: 이 변수는 YARN 프로세스 ID(PID)를 저장하는 데 사용할 디렉터리를 지정한다.
+YARN_OPTS: 이 변수는 YARN에 사용할 추가 Java 옵션을 지정한다.
+HADOOP_LIBEXEC_DIR: 이 변수는 Hadoop 라이브러리 실행 파일이 있는 디렉토리를 지정한다.
+
+
+
+yarn-env.sh
+
+#!/usr/bin/env bash
+
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+export YARN_LOG_DIR=/var/log/hadoop/yarn
+export YARN_PID_DIR=/var/run/hadoop/yarn
+export YARN_OPTS="-Djava.net.preferIPv4Stack=true"
+export HADOOP_LIBEXEC_DIR=/usr/lib/hadoop/libexec
