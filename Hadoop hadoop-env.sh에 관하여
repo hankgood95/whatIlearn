@@ -1,0 +1,25 @@
+이번에는 hadoop의 설정파일중 하나인 hadoop-env.sh에 대해서 알아보자.
+
+이 파일 안에는 여러 내용이 들어갈수 있지만 가장 대표적인것을 보여주자면 아래와 같은 내용이 들어가야 한다고 한다.
+
+
+JAVA_HOME: hadoop 실행에 필요한 Java 홈 디렉토리의 경로를 지정한다.
+HADOOP_CLASSPATH: 이 설정은 Hadoop 프로그램의 클래스 경로를 지정한다.
+HADOOP_LOG_DIR: 이 설정은 Hadoop 로그 파일이 작성되어야 하는 디렉토리를 지정한다.
+
+예시 파일은 아래와 같다.
+
+
+hadoop-env.sh
+
+#!/usr/bin/env bash
+
+# Set the Java home directory
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+
+# Set the Hadoop classpath
+export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:/usr/lib/hadoop/hadoop-common.jar
+
+# Set the Hadoop log directory
+export HADOOP_LOG_DIR=/var/log/hadoop
+
