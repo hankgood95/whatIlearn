@@ -1,0 +1,49 @@
+yarn-site.xml은 hadoop cluster에서 리소스 관리 및 애플리케이션 실행을 담당하는 resourcemanager 및 nodemanager를 구성하는데 사용된다.
+
+이 파일에서는 아래와 같은 내용들을 설정한다.
+
+yarn.nodemanager.aux-services: 이 속성은 NodeManager에서 사용하는 보조 서비스를 지정한다.
+기본값은 MapReduce Shuffle 서비스 사용을 지정하는 mapreduce_shuffle이다. 여기서 말하는 mapreduce shuffle은 노드간에 데이터 이동을 효율적으로 하기위해서 사용하는 서비스이다.
+
+yarn.resourcemanager.hostname: 이 속성은 YARN ResourceManager의 호스트 이름을 지정한다..
+yarn.resourcemanager.resource-tracker.address: 이 속성은 YARN ResourceTracker 서비스의 주소를 지정한다.
+yarn.resourcemanager.scheduler.address: 이 속성은 YARN 스케줄러 서비스의 주소를 지정한다.
+yarn.resourcemanager.address: 이 속성은 YARN ResourceManager 서비스의 주소를 지정한다.
+yarn.nodemanager.local-dirs: 이 속성은 NodeManager에 사용할 로컬 디렉터리를 지정한다.
+이것은 yarn container를 실행시키는동안 생기는 로그나 임시데이터를 저장할 디렉토리를 지정하는것이다.
+yarn.nodemanager.log-dirs: 이 속성은 NodeManager에 사용할 로그 디렉터리를 지정한다.
+여기는 실제로 nodemanager가 실행을 하면서 생기는 임시데이터나 로그데이터 쌓이는 디렉토리를 지정하는것이다.
+
+
+yarn-site.xml
+
+<configuration>
+  <property>
+    <name>yarn.nodemanager.aux-services</name>
+    <value>mapreduce_shuffle</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.hostname</name>
+    <value>my-hadoop-resourcemanager</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.resource-tracker.address</name>
+    <value>my-hadoop-resourcemanager:8031</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.scheduler.address</name>
+    <value>my-hadoop-resourcemanager:8030</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.address</name>
+    <value>my-hadoop-resourcemanager:8032</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.local-dirs</name>
+    <value>/usr/local/hadoop/yarn/local</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.log-dirs</name>
+    <value>/usr/local/hadoop/yarn/logs</value>
+  </property>
+</configuration>
