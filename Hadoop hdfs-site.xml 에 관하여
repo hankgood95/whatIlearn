@@ -1,0 +1,32 @@
+hdsfs는 분산처리 저장에 관한 설정을 하는 부분이다. 
+
+여기서 설정할수 있는 대표적인 구성은 아래와 같다.
+
+dfs.replication: 이 설정은 HDFS의 파일에 대한 기본 복제 요소를 지정한다.
+dfs.blocksize: 이 설정은 HDFS에서 파일 저장에 사용되는 블록 크기를 지정한다.
+dfs.permissions.enabled: 이 설정은 사용자 및 그룹이 hadoop cluster에 접근을 하려고 할때 권한이 있는지 없는지 체크하는 것을 설정하는 것이다.
+true 라면 권한을 확인하고 false면 권한 확인을 하지 않는것이다.
+
+
+hdfs-site.xml
+
+<?xml version="1.0"?>
+<configuration>
+  <!-- Set the default replication factor to 3 -->
+  <property>
+    <name>dfs.replication</name>
+    <value>3</value>
+  </property>
+
+  <!-- Set the block size to 64 MB -->
+  <property>
+    <name>dfs.blocksize</name>
+    <value>67108864</value>
+  </property>
+
+  <!-- Enable permissions checking for HDFS -->
+  <property>
+    <name>dfs.permissions.enabled</name>
+    <value>true</value>
+  </property>
+</configuration>
