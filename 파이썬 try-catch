@@ -1,0 +1,37 @@
+파이썬에서도 자바와 똑같이 try-catch가 존재한다.
+
+파이썬에서의 try - catch는 아래와 같이 쓰인다. 
+
+
+try:
+  실행문
+except:
+  예외문
+  
+예외에는 이제 try에서 생기는 예외가 except로 넘어가는것인대 except 뒤에 아무것도 넣어주지 않는다면
+모든 try를 실행했을때 나오는 모든 예외가 except로 넘어가게 된다.
+따라서 특정 예외문을 받아서 보고 싶다면 아래 예외들을 입력을 해주면 된다.
+
+Exception : 모든 에러가 발생했을때 발생
+TypeError: 부적절한 유형의 객체에 연산이나 함수가 적용될 때 발생.
+ValueError: 함수가 올바른 유형의 인수를 받았지만 값이 적절하지 않을 때 발생.
+NameError: 로컬 또는 전역 이름을 찾을 수 없을 때 발생.
+IndexError: 인덱스가 범위를 벗어날 때 발생.
+KeyError: dictionary 에서 키를 찾을 수 없을 때 발생.
+AttributeError: 속성 참조 또는 할당이 실패할 때 발생.
+IOError: I/O 작업이 실패하면 발생합.
+ZeroDivisionError: 나누기 또는 모듈로 연산의 두 번째 인수가 0일 때 발생.
+ImportError: 가져오기 문이 실패하면 발생.
+KeyboardInterrupt: 사용자가 인터럽트 키(일반적으로 Ctrl+C)를 누를 때 발생.
+
+이 예외들은 아래와 같이 사용하면 된다.
+
+try :
+  실행문
+except ValueError as e:
+  print("Error occur",str(e))
+
+위와 같이 입력을 해준다면 예외가 발생했을때 설정해놓은 print문을 출력을 해주고 그리고 어디서 어떤 에러가 찍혔는지를
+str(e)를 통해서 확인도 할수있게 된다.
+
+
