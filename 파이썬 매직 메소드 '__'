@@ -1,0 +1,87 @@
+파이썬에서는 매직메소드라는것이 있다고 한다.
+매직 메소드는 클래스 내에 메소드의 시작과 끝이  '__' 가 들어가 있는것이다.
+('__' 가 들어가 있다고 모든것이 매직 메소드가 되는것은 아니다. 파이썬에서 지정한 특정 메소드들만 매직메소드로 사용이 가능하다.)
+매직 메소드에는 여러 종류가 있는데 일단 가자 대표적인것부터 알려주겠다.
+
+
+__init__(self, args): 새로 생성된 객체를 지정된 인수로 초기화한다.
+ex)
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+       
+p1 = Person("John", 30)
+p2 = Person("Jane", 25)
+
+---------------------------------------------------------------------------------------------
+
+__str__(self): str() 및 print() 함수에서 사용되는 객체의 문자열 표현을 반환한다.
+ex)
+class Person:
+      def __str__(self):
+        return f"{self.name}, {self.age} years old"
+
+p1 = Person("John", 30)
+p2 = Person("Jane", 25)
+
+
+print(str(p1))  # Output: "John, 30 years old"
+
+---------------------------------------------------------------------------------------------
+        
+__len__(self): len() 함수가 사용하는 객체의 길이를 반환한다
+ex)
+class Person"
+      def __len__(self):
+        return self.age
+
+print(len(p1))  # Output: 30
+
+---------------------------------------------------------------------------------------------
+
+__eq__(self, other): 객체가 == 연산자에 의해 사용되는 다른 객체와 같으면 True를 반환합니다.
+ex)
+class Person:
+    def __eq__(self, other):
+        if isinstance(other, Person):
+            return self.name == other.name and self.age == other.age
+        return False
+
+if p1 == p2:
+    print("They are the same person")
+else:
+    print("They are different people")  # Output: "They are different people"
+
+
+---------------------------------------------------------------------------------------------
+
+__lt__(self, other): 객체가 < 연산자가 사용하는 다른 객체보다 작은 경우 True를 반환합니다.
+ex)
+class Person:
+    def __lt__(self, other):
+        if isinstance(other, Person):
+            return self.age < other.age
+        return NotImplemented
+
+if p1 < p2:
+    print(f"{p1.name} is younger than {p2.name}")
+else:
+    print(f"{p2.name} is younger than {p1.name}")  # Output: "Jane is younger than John"
+
+---------------------------------------------------------------------------------------------
+
+__add__(self, other): 객체와 함께 사용될 때 + 연산자의 동작을 정의합니다.
+ex)
+class Person:
+    def __add__(self, other):
+        if isinstance(other, int):
+            return Person(self.name, self.age + other)
+        return NotImplemented
+        
+p3 = p1 + 5
+print(p3.age)  # Output: 35
+
+---------------------------------------------------------------------------------------------
+
+이처럼 매직메소드를 사용하면 따로 함수를 호출하지않아도 특정 경우에 메소드가 호출이 된다.
