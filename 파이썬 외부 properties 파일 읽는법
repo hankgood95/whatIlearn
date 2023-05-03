@@ -1,0 +1,20 @@
+파이썬에서도 외부 properties 파일을 읽어올수가 있다.
+바로 configparser 라는것을 이용하면 되는데 사용 방법은 아래와 같다.
+
+import configparser
+
+config = configparser.ConfigParser()
+
+# Read the properties file
+config.read('path/to/your/properties/file.properties')
+
+# Access the values of the properties
+database_url = config.get('database', 'database_url')
+database_username = config.get('database', 'database_username')
+database_password = config.get('database', 'database_password')
+
+# Do something with the property values
+print('Database URL:', database_url)
+print('Database username:', database_username)
+print('Database password:', database_password)
+
