@@ -1,0 +1,54 @@
+자바에서도 sftp를 사용할수 있듯이 파이썬도 마찬가지로 sftp를 사용할수가 있다.
+
+sftp를 사용하려면 파이썬의 paramiko를 사용하면 된다.
+
+사용방법은 크게 아래와 같은 순서로 작업이 된다.
+
+1. SSHClient를 사용할수 있도록 SSHClient 인스턴스를 만든다. 
+2. SSHClient 인스턴스를 원하는 서버와 connect를 한다.
+3. connect된 SSHClient 인스턴스를 가지고 sftp_open()을 한다.
+4. sftp_open을 하여 sftp 인스턴스를 만들었다면 sftp put 혹은 get을 한다.
+
+위 방법대로 만든 코드는 아래와 같다.
+
+import paramiko
+
+def sftp_get(hostname, username, password, remote_file_path, local_file_path):
+    with paramiko.Transport(hostname) as transport:
+        transport.connect(username=username, password=password)
+
+        with transport.open_sftp() as sftp:
+            sftp.get(remote_file_path, local_file_path)
+            print(f"File downloaded from {hostname} and saved as {local_file_path}")
+
+# Example usage
+hostname = 'server.com'
+username = 'your_username'
+password = 'your_password'
+remote_file_path = '/path/to/remote/file.txt'
+local_file_path = '/path/to/local/file.txt'
+
+sftp_get(hostname, username, password, remote_file_path, local_file_path)
+
+나는 처음에 서버에서 get한 파일의 내용을 로컬에다가 저장을 하지 않고 파일의 내용을 읽어 들인후 그 파일의 내용을 put 할 서버에 write 하는 방식으로 했었다.
+하지만 그 방식으로 하게 되면 용량이 적은 파일은 금방끝낼수 있지만은 용량이 조금만 커져도 읽어들이는데 꽤 많은 시간이 소요가 된다. 
+따라서 get 한 파일을 다른 서버에 다시 put 하기 위해서는 아래와 같은 프로세스로 진행이 되어야 한다.
+
+1. 특정 서버로부터 파일을 get 하여 로컬에 저장한다.
+2. 로컬에 저장된 파일을 특정 서버로 put 한다.
+3. put이 완료 되었다면 로컬에 저장되어 있는 파일을 지워준다.
+
+파일 삭제 하는 방법은 아래와 같다.
+
+import os
+
+file_path = '/path/to/file.txt'  # Replace with the path of the file you want to delete
+
+try:
+    os.remove(file_path)
+    print(f"File '{file_path}' has been successfully deleted.")
+except Exception e :
+    print("Something wrong during delete", str(e))
+
+os.remove(파일경로) 를 이용하여서 해당 파일을 지울수가 있다.
+뭐 예외 처리는 except로 잡아주면 될거다.
